@@ -20,6 +20,7 @@ namespace PU.Infraestructura.Data
         }
 
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +28,29 @@ namespace PU.Infraestructura.Data
                 .ToTable("Usuario")
                 .Property(u => u.Id)
                 .HasColumnName("IdUsuario");
+
+            modelBuilder.Entity<Comment>()
+                .ToTable("Comentario")
+                .Property(c => c.Id)
+                .HasColumnName("IdComentario");
+            modelBuilder.Entity<Comment>()
+              .Property(c => c.Description)
+              .HasColumnName("Descripcion");
+
+            modelBuilder.Entity<Post>()
+                .ToTable("Publicacion")
+                .Property(p => p.Id)
+                .HasColumnName("IdPublicacion");
+            modelBuilder.Entity<Post>()
+                .Property(p => p.Description)
+                .HasColumnName("Descripcion");
+            modelBuilder.Entity<Post>()
+               .Property(p => p.UserId)
+               .HasColumnName("IdUsuario");
+
+
+
+
 
         }
     }

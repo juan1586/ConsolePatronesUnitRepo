@@ -9,6 +9,8 @@ namespace PU.Core.Interfaces
     public interface IUnitOfWork: IDisposable
     {
         IRepository<User> UserRepository { get; }
+        IRepository<Comment> CommentRepository { get; }
+        IPostService PostRepository { get; }
 
         void SaveChanges();
 

@@ -9,6 +9,8 @@ using PU.Infraestructura.Repositories;
 using System;
 using System.Configuration;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace PatronesUnitRepo
@@ -16,7 +18,7 @@ namespace PatronesUnitRepo
     class Program
     {
         private static IConfigurationRoot Configuration { get; set; }
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
             IConfigurationBuilder config = new ConfigurationBuilder()
@@ -27,7 +29,9 @@ namespace PatronesUnitRepo
 
 
             var serviceProvider = new ServiceCollection()
+                .AddTransient<IPostService, PostService>()
                 .AddTransient<IUserService, UserService>()
+                .AddTransient<ICommentRepository, CommentService>()
                 .AddScoped(typeof(IRepository<>), typeof(BaseRepository<>))
                 .AddTransient<IUnitOfWork, UnitOfWork>()
                 .AddDbContext<PUContext>(options => {
@@ -38,8 +42,20 @@ namespace PatronesUnitRepo
             try
             {
 
-                var userRepo = serviceProvider.GetService<IUserService>();
-                var listUser = userRepo.GetAll();
+                //var userRepo = serviceProvider.GetService<IUserService>();
+                //var listUser = userRepo.GetAll().ToList();
+
+                //var userDelete = serviceProvider.GetService<IUserService>();
+                //var Resp = await userDelete.GetById(1);
+           
+
+                //var commentRepo = serviceProvider.GetService<ICommentRepository>();
+                //var listComment = commentRepo.GetAll().ToList();
+
+
+                var postService = serviceProvider.GetService<IPostService>();
+                var resp = await postService.GetPostByUser(1);
+
             }
             catch (Exception ex)
             {

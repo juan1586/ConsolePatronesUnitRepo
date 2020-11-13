@@ -11,6 +11,8 @@ namespace PU.Infraestructura.Repositories
     public class UnitOfWork: IUnitOfWork
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Comment> _commentRepository;
+        private readonly IPostService _postRepository;
         private readonly PUContext _context;
 
         public UnitOfWork(PUContext context)
@@ -19,6 +21,8 @@ namespace PU.Infraestructura.Repositories
         }
 
         public IRepository<User> UserRepository => _userRepository ?? new BaseRepository<User>(_context);
+        public IRepository<Comment> CommentRepository => _commentRepository ?? new BaseRepository<Comment>(_context);
+        public IPostService PostRepository => _postRepository ?? new PostRepository(_context);
 
         public void Dispose()
         {
